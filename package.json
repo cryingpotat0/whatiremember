@@ -1,0 +1,11 @@
+{
+  "name": "whatiremember",
+  "version": "1.0.0",
+  "description": "A personal and group summary app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raghav Anand",
+  "license": "ISC"
+}
