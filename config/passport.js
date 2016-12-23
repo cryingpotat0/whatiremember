@@ -18,5 +18,6 @@ module.exports = function() {
     });
   });
 
+  require('./strategies/facebook.js')();
   require('./strategies/local.js')();
 };
