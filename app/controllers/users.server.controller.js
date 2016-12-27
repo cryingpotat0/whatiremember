@@ -1,111 +1,43 @@
-var User = require('mongoose').model('User');
 var passport = require('passport');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
-var getErrorMessage = function(err) {
-  var message = '';
-  if (err.code) {
-    switch (err.code) {
-      case 11000:
-      case 11001:
-        message = 'Username already exists';
-        break;
-      default:
-        message = 'Something went wrong';
-    }
-  } else {
-    for (var errName in err.errors) {
-      if (err.errors[errName].message) message = err.errors[errName].
-        message;
-    } }
-  return message;
+module.exports.home = function(req, res) {
+  res.render('index', { 
+    user: req.user
+     });
 };
 
-exports.renderSignin = function(req, res, next) {
-  if (!req.user) {
-    res.render('signin', {
-      title: 'Sign-in Form',
-      messages: req.flash('error') || req.flash('info')
-    });
-  } else {
-    req.flash('error', "You are already logged in");
-    return res.redirect('/'); } 
-};
 
-exports.renderSignup = function(req, res, next) {
-  if (!req.user) {
-    res.render('signup', {
-      title: 'Sign-up Form',
-      messages: req.flash('error')
-    });
-  } else {
-    req.flash('error', "You are already logged in");
-    return res.redirect('/');
-  }
-};
+module.exports.logout = function(req, res, next) {
+  req.logout()
+}
 
-exports.signup = function(req, res, next) {
-  if (!req.user) {
+module.exports.signup = function(req, res, next) {
+  if(req.user) {
+    res.status(422).send({error: "User already signed in"});
+    //res.json({ message: "User already signed in",
+    //          id: req.user.id
+    //});
+  } else {
     var user = new User(req.body);
-    var message = null;
+    //console.log(req.body);
     user.provider = 'local';
-    user.save(function(err) {
-      if (err) {
-        var message = getErrorMessage(err);
-        req.flash('error', message);
-        return res.redirect('/signup');
+    user.save(function(err){
+      if(err) {
+        //console.log(err);
+        res.status(422).send({error: "Error in filling out form"});
+        //res.json({message: err});
       }
+      else {
       req.login(user, function(err) {
-        if (err) return next(err);
-        return res.redirect('/');
-      }); 
-    });
-  } else {
-    return res.redirect('/');
-  } 
-};
-
-exports.signout = function(req, res) {
-  req.logout();
-  res.redirect('/');
-};
-
-exports.saveOAuthUserProfile = function(req, profile, done) {
-  User.findOne({
-    provider: profile.provider,
-    providerId: profile.providerId
-  }, function(err, user) {
-    if (err) {
-      return done(err);
-    } else {
-      if (!user) {
-        var possibleUsername = profile.username ||
-          ((profile.email) ? profile.email.split('@')[0] : '');
-        User.findUniqueUsername(possibleUsername, null,
-          function(availableUsername) {
-            profile.username = availableUsername;
-            user = new User(profile);
-            user.save(function(err) {
-              if (err) {
-                var message = _this.getErrorMessage(err);
-                req.flash('error', message);
-                return res.redirect('/signup');
-              }
-              return done(err, user);
-            });
-          });
-      } else {
-        return done(err, user);
+        if(err) {
+          res.status(401).send({error: err});
+        } else {
+          res.json({message: "Successful login"});
+        }
+      });
       }
-    } 
-  });
-};
-
-exports.list = function(req, res, next) {
-  User.find( {}, function(err, users) {
-    if(err) {
-      return next(err);
-    } else {
-      res.json(users);
-    }
-  });
+    });
+  }
 };

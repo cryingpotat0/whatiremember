@@ -1,0 +1,46 @@
+<div class="block block-transparent block-fill-height block-angle block-app-mosdef">
+    <div class="block-bg-clip">
+      <div class="block-bg">
+        <div class="block-bg-img block-bg-img-top" style="background-image: url(img/notebook.jpg)">
+        </div>
+      </div>
+    </div>
+
+    <div class="block-xs-middle">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1 class="block-title m-b-md">
+              <span class="text-ribbon text-ribbon-primary">
+                <span>Sign up now.</span>
+              </span>
+            </h1>
+            <form ng-submit="processSignup()">
+              <div class="text-ribbon-inputs-split">
+                <input type="text" ng-model = "signupData.firstName" class="h4 text-ribbon-input text-ribbon-primary" placeholder="First Name">
+                <input type="text" ng-model = "signupData.lastName" class="h4 text-ribbon-input text-ribbon-primary" placeholder="Last Name">
+              </div>
+              <input type="text" ng-model = "signupData.email" class="h4 text-ribbon-input text-ribbon-input-half text-ribbon-primary" placeholder="Email">
+              <div class="text-ribbon-inputs-split">
+                <input type="text" ng-model = "signupData.username" class="h4 text-ribbon-input text-ribbon-primary" placeholder="Username">
+                <input type="password" ng-model = "signupData.password" class="h4 text-ribbon-input text-ribbon-primary" placeholder="Password">
+              </div>
+              <button type="submit" class="btn btn-square btn-primary btn-lg btn-block">
+                Signup.
+              </button>
+            </form>
+          </div>
+
+          <div class = "col-sm-4 col-sm-offset-2">
+            <button ui-sref="home" type="button" class="btn btn-square btn-primary btn-lg btn-block">
+              Home.
+            </button>
+            <button ui-sref="render-login" type="button" class="btn btn-square btn-primary btn-lg btn-block">
+              Login otherwise.
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
