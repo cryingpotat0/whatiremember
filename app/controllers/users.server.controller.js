@@ -10,15 +10,17 @@ module.exports.home = function(req, res) {
 
 
 module.exports.logout = function(req, res, next) {
-  req.logout()
+  if(!(req.user)){
+    res.status(401).send({error: "No user logged in"});
+  } else {
+    req.logout();
+    res.json({message: "Success"});
+  }
 }
 
 module.exports.signup = function(req, res, next) {
   if(req.user) {
     res.status(422).send({error: "User already signed in"});
-    //res.json({ message: "User already signed in",
-    //          id: req.user.id
-    //});
   } else {
     var user = new User(req.body);
     //console.log(req.body);
