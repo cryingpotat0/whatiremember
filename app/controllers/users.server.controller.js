@@ -28,7 +28,7 @@ module.exports.signup = function(req, res, next) {
     user.save(function(err){
       if(err) {
         //console.log(err);
-        res.status(422).send({error: "Error in filling out form"});
+        res.status(422).send({error: err});
         //res.json({message: err});
       }
       else {

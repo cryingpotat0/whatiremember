@@ -1,4 +1,3 @@
-
 <div class="stage" id="stage">
   <div class="block block-fill-height block-transparent block-angle app-block-chainz" id="chainz">
     <div class="block-bg-clip">
@@ -26,12 +25,14 @@
             </p>
           </div>
           <div class = "col-sm-4 col-sm-offset-2">
-            <button ui-sref="render-signup" type="button" class="btn btn-square btn-primary btn-lg btn-block">
-              Signup now.
-            </button>
-            <button ui-sref="render-login" type="button" class="btn btn-square btn-primary btn-lg btn-block">
-              Login otherwise.
-            </button>
+            <div ng-if="!(user)">
+              <button ui-sref="render-signup" type="button" class="btn btn-square btn-primary btn-lg btn-block">
+                Signup now.
+              </button>
+              <button ui-sref="render-login" type="button" class="btn btn-square btn-primary btn-lg btn-block">
+                Login otherwise.
+              </button>
+            </div>
             <button ng-if = "user" ng-click="logout()" class="btn btn-square btn-primary btn-lg btn-block">
               Logout
             </button>

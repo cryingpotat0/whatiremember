@@ -28,12 +28,11 @@
           }
         }
     </style>
+    <div ng-cloak ng-if="errors" class = "alert alert-danger">
+      {{ errors }}
+    </div>
     <div ui-view></div>
-    <%= user %>
     <!-- Scripts -->
-    <script>
-      //window.user = <%- user %> || undefined;
-    </script>
     <script src = "bower_modules/angular/angular.min.js"></script>
     <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script>

@@ -24,6 +24,7 @@ module.exports = function() {
   app.set('view engine', 'ejs');
 
   require('../app/routes/users.routes.js')(app);
+  require('../app/routes/notebooks.routes.js')(app);
   app.use(express.static('./public'));
 
   return app;
