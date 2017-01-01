@@ -18,6 +18,9 @@ var authenticateUser = function(req, res, next) {
 }
 
 var currentUserAccess = function(req, res, next) {
+  if(!(req.notebook)) {
+    res.status(401).send({error: "This book does not exist"});
+  }
   if(!(req.user) || (req.user.id != req.notebook.creatorId)){
     res.status(401).send({error: "You are not permitted access to this notebook"});
   } else {

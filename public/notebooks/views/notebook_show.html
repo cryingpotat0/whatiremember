@@ -1,0 +1,28 @@
+<div class="stage" id="stage" ng-init="createTextEditors()">
+  <div class="container" ng-init="showNotebook()">
+    <div class = "row" >
+      <div class="col-md-6 col-md-offset-3 col-xs-12">
+          <span class="h1 text-ribbon-input text-ribbon-input-half text-ribbon-primary" placeholder="Title"> {{ notebookData.title }} </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-6 col-md-offset-3 col-xs-12" style="color:white">
+        <div class = "text-editor-input" ></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.text-editor-input0 #editor {
+  margin-top: 90px;
+}
+
+  .fixed-toolbar {
+    top: 100px;
+  }
+
+  .CodeFlask__pre {
+    color:white;
+  }
+
+  <

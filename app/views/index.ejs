@@ -5,39 +5,25 @@
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <!--[if lte IE 8]><script src="js/ie/html5shiv.js"></script><![endif]-->
-      <link rel="stylesheet" href="css/application-bold.css" />
+      <link rel="stylesheet" href="css/font-awesome.min.css" />
+      <link rel="stylesheet" href="css/import-text-editor.css" />
       <link rel="stylesheet" href="css/toolkit-bold.css" />
     </head>
-    <body ng-controller = "UserController">
+    <body> 
 
-      <style>
-        /* note: this is a hack for ios iframe for bootstrap themes shopify page */
-        /* this chunk of css is not part of the toolkit :) */
-        /* …curses ios, etc… */
-        @media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
-          body {
-            width: 1px;
-            min-width: 100%;
-            *width: 100%;
-          }
-          #stage {
-            height: 1px;
-            overflow: auto;
-            min-height: 100vh;
-            -webkit-overflow-scrolling: touch;
-          }
-        }
-    </style>
-    <div ng-cloak ng-if="errors" class = "alert alert-danger">
-      {{ errors }}
-    </div>
     <div ui-view></div>
+    
     <!-- Scripts -->
     <script src = "bower_modules/angular/angular.min.js"></script>
     <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/toolkit.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/codeflask.js"></script>
+    <script src="js/texteditor.js"></script>
+    <script src="application.js"></script>
     <script src="users/controllers/user.client.controller.js"></script>
+    <script src="notebooks/controllers/notebook.client.controller.js"></script>
   </body>
 </html>

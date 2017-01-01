@@ -13,9 +13,8 @@ module.exports = function() {
   }));
 
   app.use(bodyParser.json());
-  app.use(session({secret: "nothing",
-                    resave: true,
-                    saveUninitialized: true}));
+  app.use(session({secret: "nothing"
+  }))
   app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());

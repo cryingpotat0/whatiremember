@@ -33,9 +33,14 @@
                 Login otherwise.
               </button>
             </div>
-            <button ng-if = "user" ng-click="logout()" class="btn btn-square btn-primary btn-lg btn-block">
-              Logout
-            </button>
+            <div ng-if="user">
+              <button ng-click="logout()" class="btn btn-square btn-primary btn-lg btn-block">
+                Logout
+              </button>
+              <button ui-sref="notebooks" class="btn btn-square btn-primary btn-lg btn-block">
+                Notebooks
+              </button>
+            </div>
 
           </div>
         </div>

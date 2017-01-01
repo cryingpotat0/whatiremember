@@ -1,0 +1,33 @@
+<div class="stage" id="stage" ng-init="createTextEditors()">
+  <div class="container" ng-init="makeEditable()">
+    <div class = "row">
+      <div class="col-md-6 col-md-offset-3 col-xs-9">
+        <h1>
+          <input type="text" ng-model = "notebookData.title" class="h1 text-ribbon-input text-ribbon-input-half text-ribbon-primary" placeholder="Title">
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-6 col-md-offset-3 col-xs-9" style="color:white">
+        <div class = "text-editor-input"></div>
+      </div>
+      <div class = "col-xs-3">
+        <button class = "btn btn-success " style="position:fixed; top: 20%; left:75%" ng-click="editNotebook()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .text-editor-input0 #editor {
+    margin-top: 90px;
+  }
+
+  .fixed-toolbar {
+    top: 100px;
+  }
+
+  .CodeFlask__pre {
+    color:white;
+  }
+
+<

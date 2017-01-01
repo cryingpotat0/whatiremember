@@ -1,48 +1,11 @@
-var myApp = angular.module('userApp',['ui.router', 'ngStorage']);
+angular.module('userApp').controller('UserController', ['$scope', '$http', '$state', '$localStorage', '$rootScope', 'UserAuth', 
+  function($scope, $http, $state, $localStorage, $rootScope, UserAuth ) {
 
-myApp.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/home');
-  $stateProvider
-    .state('home', {
-      url: '/home',
-      templateUrl: 'users/views/home.partial.html'
-      
-    })
-    .state('render-signup', {
-      url: '/signup',
-      templateUrl: 'users/views/signup.partial.html',
-      resolve: {
-        security: ['$q', '$localStorage', function($q, $localStorage){
-          if($localStorage.user_id){
-            return $q.reject("already signed in");
-          }
-        }]
-      }
-
-    })
-    .state('render-login', {
-      url: '/login',
-      templateUrl: 'users/views/login.partial.html',
-      resolve: {
-        security: ['$q', '$localStorage', function($q, $localStorage){
-          if($localStorage.user_id){
-            return $q.reject("already signed in");
-          }
-        }]
-      }
-    });
-});
-
-angular.module('userApp').controller('UserController', ['$scope', '$http', '$state', '$localStorage', '$rootScope',
-  function($scope, $http, $state, $localStorage, $rootScope) {
-  $scope.errors = undefined;
+  //On page reload functions
   //Check for user
-  if($localStorage.user_id){
-    console.log($localStorage.user_id)
-    //console.log("user");
+  if(UserAuth.userExists($localStorage)){
     $scope.user = true;
   } else {
-    //console.log("no user");
     $scope.user = false;
   }
   
@@ -53,7 +16,7 @@ angular.module('userApp').controller('UserController', ['$scope', '$http', '$sta
      function(data, status, headers, config) {
        $scope.user = true;
        $localStorage.user_id = data.data._id;
-       $state.go('home');
+       $state.go('notebooks.list');
      }, 
      function(data) {
        $scope.errors = data.data.error.errors;
@@ -67,7 +30,7 @@ angular.module('userApp').controller('UserController', ['$scope', '$http', '$sta
      function(data, status, headers, config) {
        $scope.user = true;
        $localStorage.user_id = data.data._id;
-       $state.go('home');
+       $state.go('notebooks.list');
      }, function(data) {
        $scope.errors = data;
      })
@@ -87,11 +50,4 @@ angular.module('userApp').controller('UserController', ['$scope', '$http', '$sta
       })
   }
 
-  //State Change
-  $rootScope.$on("$stateChangeStart", function (ev, to, toParams, from, fromParams) { 
-     $scope.errors = undefined;
-  });
-  $rootScope.$on("$stateChangeError", function (ev, to, toParams, from, fromParams) { 
-     $scope.errors = ev;
-  });
 }]);
