@@ -1,9 +1,8 @@
-angular.module('userApp').controller('UserController', ['$scope', '$http', '$state', '$localStorage', '$rootScope', 'UserAuth', 
-  function($scope, $http, $state, $localStorage, $rootScope, UserAuth ) {
+angular.module('userApp').controller('UserController', ['$scope', '$state', 'Authentication',
+  function($scope, $state, Authentication) {
 
-  //On page reload functions
-  //Check for user
-  if(UserAuth.userExists($localStorage)){
+  //On page reload check for user
+  if(Authentication.userExists()){
     $scope.user = true;
   } else {
     $scope.user = false;
@@ -12,42 +11,32 @@ angular.module('userApp').controller('UserController', ['$scope', '$http', '$sta
   //Signup
   $scope.signupData= { };
   $scope.processSignup = function() {
-   $http.post('/api/signup', $scope.signupData).then(
-     function(data, status, headers, config) {
+    Authentication.signup($scope.signupData).then(
+     function() {
        $scope.user = true;
-       $localStorage.user_id = data.data._id;
        $state.go('notebooks.list');
-     }, 
-     function(data) {
-       $scope.errors = data.data.error.errors;
-     })
+     }, function(errors) { 
+        $scope.errors = errors;
+     });
   }
   
   //Login
   $scope.loginData= { };
   $scope.processLogin= function() {
-   $http.post('/api/login', $scope.loginData).then(
-     function(data, status, headers, config) {
+    Authentication.login($scope.loginData).then(
+     function() {
        $scope.user = true;
-       $localStorage.user_id = data.data._id;
        $state.go('notebooks.list');
-     }, function(data) {
-       $scope.errors = data;
-     })
+     });
   }
 
   //Logout
   $scope.logout = function() {
-    $http.post('/api/logout').then(
+    Authentication.logout().then(
       function() {
         $scope.user = false;
-        $localStorage.$reset();
         $state.go('home');
-      },
-      function() {
-        $localStorage.$reset();
-        $scope.errors = "Error loggin out";
-      })
+      });
   }
 
 }]);

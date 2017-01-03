@@ -4,7 +4,7 @@
     <div class="container" id="grid">
       <div class="row">
     
-        <notebook-block delete-notebook="deleteNotebook(id)" edit-notebook="renderEdit" id= "{{notebook._id}}" style="{{notebook.style}}" title="{{notebook.title}}" display-line="{{notebook.lines['1']}}" ng-repeat="notebook in notebooks" ng-if="notebook.display"></notebook-block>
+        <notebook-block delete-notebook="deleteNotebook(id)" edit-notebook="renderEdit" id= "{{notebook._id}}" style="{{notebook.style}}" title="{{notebook.title}}" ng-repeat="notebook in notebooks" ng-if="notebook.display"></notebook-block>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
-<div class="stage" id="stage" ng-init="createTextEditors()">
-  <div class="container" ng-init="makeEditable()">
+<div class="stage" id="stage" ng-init="createTextEditors(); showNotebook(true)">
+  <div class="container">
     <div class = "row">
       <div class="col-md-6 col-md-offset-3 col-xs-9">
         <h1>
@@ -17,17 +17,3 @@
     </div>
   </div>
 </div>
-<style>
-  .text-editor-input0 #editor {
-    margin-top: 90px;
-  }
-
-  .fixed-toolbar {
-    top: 100px;
-  }
-
-  .CodeFlask__pre {
-    color:white;
-  }
-
-<

@@ -1,5 +1,39 @@
 var TextEditor = function(containerName) {
   //PROTOTYPE FUNCTIONS
+  TextEditor.prototype.persistDataN = function(n, data) {
+    for (var i=0; i < n; i++) {
+      var className = this.name + i.toString();
+      var textEditor = new TextEditor(className);
+      textEditor.persistData(data[i]);
+    }
+    return this
+  }
+
+  TextEditor.prototype.displayMode = function() {
+    jQuery('.toolbar').hide();
+    jQuery('#editor').removeAttr('contenteditable');
+    return this;
+  }
+
+  TextEditor.prototype.makeEditable = function() {
+    jQuery(this.name + '0 .toolbar').show();
+    jQuery('#editor').attr('contenteditable', 'true');
+  }
+
+  TextEditor.prototype.storableData = function() {
+    return jQuery(this.name + ' #editor')['0'].innerHTML;
+  }
+
+  TextEditor.prototype.storableDataN = function(n, dataObject) {
+    for (var i =0; i<n; i++) {
+      var className = this.name + i.toString();
+      var textEditor = new TextEditor(className);
+      dataObject[i] = textEditor.storableData();
+    }
+    return this;
+  }
+
+
   TextEditor.prototype.generateN = function(n, options) {
     var current_elem = jQuery(this.name);
     var current_parent = current_elem.parent();
@@ -12,6 +46,7 @@ var TextEditor = function(containerName) {
       textEditor.init(options);
       textEditor.show();
     }
+    return this;
   }
 
   TextEditor.prototype.singleToolbar = function() {
@@ -20,6 +55,7 @@ var TextEditor = function(containerName) {
     for (var i=1; i < this.count; i++) {
       jQuery(this.name + i.toString() + ' .toolbar').hide();
     }
+    return this
   }
 
   TextEditor.prototype.persistData = function(data) {
@@ -39,6 +75,7 @@ var TextEditor = function(containerName) {
       var flask = new CodeFlask;
       flask.run('#' + codeflask, {language: codeflask_objects[codeflask]});
     }
+    return this;
   }
 
   TextEditor.prototype.getFlaskLanguage = function(elem) {

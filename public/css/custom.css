@@ -1,0 +1,28 @@
+.nav-button {
+  position:fixed;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-button-1 {
+  top: 140px;
+}
+.nav-button-2 {
+  top: 300px;
+}
+.nav-button-3 {
+  top: 220px;
+}
+
+.text-editor-input0 #editor {
+  margin-top: 90px;
+}
+
+.fixed-toolbar {
+  top: 100px;
+}
+
+.CodeFlask__pre {
+  color:white;
+}
+

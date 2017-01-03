@@ -1,31 +1,27 @@
-angular.module('userApp').controller('NotebookController', ['$scope', '$http', '$state', '$stateParams',
-  function($scope, $http, $state, $stateParams) {
+angular.module('userApp').controller('NotebookController', ['$scope', '$http', '$state', '$stateParams', 'NotebookAPI',
+  function($scope, $http, $state, $stateParams, NotebookAPI) {
     $scope.getNotebookList = function() {
-      $http.get('/api/notebook').then(
-        function(data, status, headers, config) {
-          $scope.notebooks = addParametersToNotebooks(data.data);
+      NotebookAPI.getNotebookList().then(
+        function(notebooks) {
+          $scope.notebooks = notebooks;
         },
-        function(data, status, headers, config) {
-          //console.log(data)
-          $scope.errors = data;
+        function(errors) {
+          console.log(errors)
         }
       )}
 
-    $scope.showNotebook = function() {
+    $scope.showNotebook = function(editable) {
       var notebookId = $stateParams.notebookId;
-      $http.get('/api/notebook/'+notebookId).then(
-        function(data, status, headers, config) {
-          $scope.notebookData.title = data.data.notebook.title;
-          var lines = data.data.notebook.lines;
-          //console.log(lines);
-          jQuery('.toolbar').hide();
-          for (var i=0; i < $scope.max_lines; i++) {
-            var className = '.' + $scope.textEditorName + i.toString();
-            jQuery(className + ' #editor').removeAttr('contenteditable');
-            var textEditor = new TextEditor(className);
-            textEditor.persistData(lines[i]);
+      NotebookAPI.showNotebook(notebookId).then(
+        function(notebook) {
+          $scope.notebookData.title = notebook.title;
+          var lines = notebook.lines;
+          var textEditor = $scope.textEditor;
+          textEditor.persistDataN($scope.max_lines, lines);
+          if(!(editable)) { 
+            textEditor.displayMode();
           }
-          console.log(data);
+
         },
         function(data, status, headers, config) {
           console.log(data);
@@ -33,53 +29,34 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
     }
 
     $scope.makeEditable = function() {
-      var notebookId = $stateParams.notebookId;
-      $http.get('/api/notebook/'+notebookId).then(
-        function(data, status, headers, config) {
-          $scope.notebookData.title = data.data.notebook.title;
-          var lines = data.data.notebook.lines;
-          for (var i=0; i < $scope.max_lines; i++) {
-            var className = '.' + $scope.textEditorName + i.toString();
-            var textEditor = new TextEditor(className);
-            textEditor.persistData(lines[i]);
-          }
-          console.log(data);
-        },
-        function(data, status, headers, config) {
-          console.log(data);
-        });
+      $scope.showNotebook(true);
     }
+
     $scope.editNotebook = function() {
       var lines = { }
-      for (var i=0; i < $scope.max_lines; i++) {
-        lines[i.toString()] = jQuery('.' + $scope.textEditorName + i.toString() + ' #editor')['0'].innerHTML;
-      }
-      //console.log(lines)
+      var textEditor = $scope.textEditor;
+      textEditor.storableDataN($scope.max_lines, lines);
       $scope.notebookData.lines = lines;
+
       var notebookId = $stateParams.notebookId;
-      //console.log($scope.notebookData);
-      $http.patch('/api/notebook/' + notebookId, $scope.notebookData).then(
-        function(data, status, headers, config) {
+      NotebookAPI.editNotebook(notebookId, $scope.notebookData).then(
+        function(data) {
           $state.go('notebooks.list');
-          console.log(data);
         },
-        function(data, status, headers, config) {
-          console.log(data);
+        function(errors) {
+          console.log(errors);
         });
     }
 
     $scope.submitNotebook = function() {
       var lines = { }
-      for (var i=0; i < $scope.max_lines; i++) {
-        lines[i.toString()] = jQuery('.' + $scope.textEditorName + i.toString() + ' #editor')['0'].innerHTML;
-      }
-      //console.log(lines)
+      var textEditor = $scope.textEditor;
+      textEditor.storableDataN($scope.max_lines, lines);
+
       $scope.notebookData.lines = lines,
-        //console.log($scope.notebookData);
-        $http.post('/api/notebook', $scope.notebookData).then(
+        NotebookAPI.submitNotebook($scope.notebookData).then(
           function(data, status, headers, config) {
             $state.go('notebooks.list');
-            console.log(data);
           },
           function(data, status, headers, config) {
             console.log(data);
@@ -89,14 +66,17 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
     $scope.createTextEditors = function() {
       $scope.notebookData = { }
       $scope.textEditorName = 'text-editor-input';
+
       var textEditor = new TextEditor('.' + $scope.textEditorName);
+      $scope.textEditor = textEditor;
       $scope.max_lines = 10;
+
       textEditor.generateN($scope.max_lines,['bold', 'forecolor','insertOrderedList','insertUnorderedList', 'insertimage', 'createlink', 'unlink', 'code']);
       textEditor.singleToolbar();
     }
 
     $scope.deleteNotebook = function(id) {
-      $http.delete('api/notebook/' + id).then(
+      NotebookAPI.deleteNotebook(id).then(
         function(data, status, headers, config) {
           current_notebooks = $scope.notebooks;
           for(var notebook of current_notebooks){

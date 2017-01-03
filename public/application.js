@@ -1,7 +1,7 @@
 
 var myApp = angular.module('userApp',['ui.router', 'ngStorage']);
 
-myApp.config(function($stateProvider, $urlRouterProvider) {
+myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
   $stateProvider
     .state('home', {
@@ -65,21 +65,12 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'notebooks/views/notebook_show.html',
     controller: 'NotebookController'
   });
-});
+}]);
 
-myApp.run(function($rootScope, $state, $http, $localStorage){
-  
-  $rootScope.logout = function() {
-    $http.post('/api/logout').then(
-      function() {
-        $localStorage.$reset();
-        $state.go('home');
-      },
-      function() {
-        $localStorage.$reset();
-      })
-  }
+myApp.run(function($rootScope, $state, Authentication) {
   //State Change
+  $rootScope.logout = Authentication.logout;
+
   $rootScope.$on("$stateChangeStart", function (ev, to, toParams, from, fromParams, error) { 
     $rootScope.errors = undefined;
   });
@@ -90,12 +81,3 @@ myApp.run(function($rootScope, $state, $http, $localStorage){
   });
 });
 
-myApp.service('UserAuth', function() {
-  this.userExists = function($localStorage) {
-    if($localStorage.user_id){
-      return true;
-    } else {
-      return false;
-    }
-  };
-})
