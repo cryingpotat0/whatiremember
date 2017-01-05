@@ -1,17 +1,18 @@
-.nav-button {
-  position:fixed;
-  right: 0;
-  z-index: 1000;
+.text-bold {
+  font-weight: bold;
 }
-
-.nav-button-1 {
-  top: 140px;
+.notebook-buttons { 
+  border-radius:0; 
+  background-color:yellow; 
+  color:black; 
+  position:fixed; 
 }
-.nav-button-2 {
-  top: 300px;
+.notebook-buttons:hover {
+  color: #f48024;
 }
-.nav-button-3 {
-  top: 220px;
+.submit-buttons { 
+  top: 20%; 
+  right:0%
 }
 
 .text-editor-input0 #editor {
@@ -19,10 +20,14 @@
 }
 
 .fixed-toolbar {
-  top: 100px;
+  top: 160px;
 }
 
 .CodeFlask__pre {
   color:white;
 }
 
+.alert { 
+  margin: 0;
+  z-index:1000;
+}

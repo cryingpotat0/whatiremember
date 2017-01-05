@@ -10,7 +10,12 @@
       <link rel="stylesheet" href="css/toolkit-bold.css" />
       <link rel="stylesheet" href="css/custom.css" />
     </head>
-    <div> <!-- FLASH CONTROLLER -->
+    <div class = "row">
+      <div class = "col-xs-6 col-xs-offset-3">
+        <div class= "text-center alert alert-{{flashStyle}} text-bold" ng-controller="flashController">
+          <div ng-repeat="message in flashMessages">{{message}}</div>
+        </div>
+      </div>
     </div>
     <div ui-view></div>
     
@@ -24,6 +29,8 @@
     <script src="js/codeflask.js"></script>
     <script src="js/texteditor.js"></script>
     <script src="application.js"></script>
+    <script src="flash/flashService.js"></script>
+    <script src="flash/flashController.js"></script>
     <script src="users/services/authentication.js"></script>
     <script src="users/controllers/user.client.controller.js"></script>
     <script src="notebooks/services/notebook.api.js"></script>

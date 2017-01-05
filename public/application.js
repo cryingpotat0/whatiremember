@@ -70,14 +70,10 @@ myApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $
 myApp.run(function($rootScope, $state, Authentication) {
   //State Change
   $rootScope.logout = Authentication.logout;
-
-  $rootScope.$on("$stateChangeStart", function (ev, to, toParams, from, fromParams, error) { 
-    $rootScope.errors = undefined;
-  });
+  $rootScope.data = $rootScope.data || { };
   $rootScope.$on("$stateChangeError", function (ev, to, toParams, from, fromParams, error) { 
     $state.go('home');
     console.log(error);
-    $rootScope.errors = error;
   });
 });
 

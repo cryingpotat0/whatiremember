@@ -36,7 +36,9 @@ module.exports.signup = function(req, res, next) {
         if(err) {
           res.status(401).send({error: err});
         } else {
-          res.json({message: "Successful login"});
+          res.json({message: "Successful login", 
+                    user: user._id
+          });
         }
       });
       }

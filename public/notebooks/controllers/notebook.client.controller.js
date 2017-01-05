@@ -1,12 +1,12 @@
-angular.module('userApp').controller('NotebookController', ['$scope', '$http', '$state', '$stateParams', 'NotebookAPI',
-  function($scope, $http, $state, $stateParams, NotebookAPI) {
+angular.module('userApp').controller('NotebookController', ['$scope', '$http', '$state', '$stateParams', 'NotebookAPI', 'flash',
+  function($scope, $http, $state, $stateParams, NotebookAPI, flash) {
     $scope.getNotebookList = function() {
       NotebookAPI.getNotebookList().then(
         function(notebooks) {
           $scope.notebooks = notebooks;
         },
         function(errors) {
-          console.log(errors)
+          console.log(errors);
         }
       )}
 
@@ -28,9 +28,9 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
         });
     }
 
-    $scope.makeEditable = function() {
-      $scope.showNotebook(true);
-    }
+    //$scope.makeEditable = function() {
+    //  $scope.showNotebook(true);
+    //}
 
     $scope.editNotebook = function() {
       var lines = { }
@@ -42,9 +42,11 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
       NotebookAPI.editNotebook(notebookId, $scope.notebookData).then(
         function(data) {
           $state.go('notebooks.list');
+          flash.newFlashSet(['Notebook successfully updated'], 'success');
         },
         function(errors) {
-          console.log(errors);
+          var errorList = errors.data.error.errors.title.message;
+          flash.newFlashSet([errorList], 'danger');
         });
     }
 
@@ -57,9 +59,11 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
         NotebookAPI.submitNotebook($scope.notebookData).then(
           function(data, status, headers, config) {
             $state.go('notebooks.list');
+            flash.newFlashSet(['Notebook successfully created'], 'success');
           },
-          function(data, status, headers, config) {
-            console.log(data);
+          function(errors) {
+            var errorList = errors.data.error.errors.title.message;
+            flash.newFlashSet([errorList], 'success');
           });
     }
 
@@ -79,6 +83,7 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
       NotebookAPI.deleteNotebook(id).then(
         function(data, status, headers, config) {
           current_notebooks = $scope.notebooks;
+
           for(var notebook of current_notebooks){
             if(notebook._id == data.data.notebook._id) {
               notebook.display = false;
@@ -86,24 +91,15 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
               return
             }
           }
+
         },
-        function(data, status, headers, config) {
-          $scope.errors = data;
+        function(errors) {
+          console.log(errors);
         }
       )
     }
   }]
 );
-
-function addParametersToNotebooks(notebook_list){
-  var styles = ["success", "info", "warning", "danger"];
-  for(var notebook of notebook_list) {
-    style_number = Math.floor(Math.random()*(4));
-    notebook.style = styles[style_number];
-    notebook.display = true;
-  }
-  return notebook_list
-}
 
 angular.module('userApp').directive('notebookBlock', function() {
   return {

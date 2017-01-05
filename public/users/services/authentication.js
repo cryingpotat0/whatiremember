@@ -1,4 +1,5 @@
-angular.module('userApp').service('Authentication', ['$localStorage', '$http', '$q', '$rootScope', '$state', function($localStorage, $http, $q, $rootScope, $state) {
+angular.module('userApp').service('Authentication', ['$localStorage', '$http', '$q', '$rootScope', '$state', 'flash',
+  function($localStorage, $http, $q, $rootScope, $state, flash) {
   this.login = function(loginData) {
     var deferred = $q.defer();
     $http.post('/api/login', loginData).then(
@@ -7,8 +8,6 @@ angular.module('userApp').service('Authentication', ['$localStorage', '$http', '
         $localStorage.user_id = user_id;
         deferred.resolve({user_id: user_id});
       }, function(errors) {
-        $rootScope.data.errorMessage = "Unsuccessful login";
-        $rootScope.data.errors = errors;
         deferred.reject(errors);
       });
 
@@ -23,10 +22,10 @@ angular.module('userApp').service('Authentication', ['$localStorage', '$http', '
         var user_id = data.data._id;
         $state.go('home');
         deferred.resolve({user_id: user_id});
+        flash.newFlashSet(['Successfully logged out'], 'success');
       },
       function(errors) {
-        //$rootScope.data.errorMessage = "Unsuccessful logout";
-        //$rootScope.data.errors = errors;
+        $state.go('home');
         deferred.reject(errors);
       })
     return deferred.promise;
@@ -37,17 +36,19 @@ angular.module('userApp').service('Authentication', ['$localStorage', '$http', '
     var deferred = $q.defer();
     $http.post('/api/signup', signupData).then(
       function(data, status, headers, config) {
-        var user_id = data.data._id;
+        var user_id = data.data.user;
         $localStorage.user_id = user_id;
         deferred.resolve({user_id: user_id});
       }, function(errors) {
         var errorsList = errors.data.error.errors;
-        var errorMessages = [
-          errorsList.password.message,
-          errorsList.username.message,
-          errorsList.email.message
-        ]
-        //$rootScope.errors = errors;
+        var errorMessages = []
+        var password = errorsList.password,
+            username = errorsList.username,
+            email = errorsList.email;
+        if(email) { errorMessages.push(email.message); }
+        if(username) { errorMessages.push(username.message); }
+        if(password) { errorMessages.push(password.message); }
+
         deferred.reject(errorMessages);
       });
 

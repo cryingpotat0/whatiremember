@@ -1,4 +1,9 @@
-<a class="nav-button nav-button-1 btn btn-success" ui-sref="notebooks.list">View <br>All Books</a>
-<a class="nav-button nav-button-2 btn btn-danger" ng-click="logout()">Logout</a>
-<a class="nav-button nav-button-3 btn btn-info" ui-sref="notebooks.new">New <br>Notebook</a>
+
+<div class = "row">
+  <div class = "col-xs-6 col-xs-offset-3 text-center">
+    <a  ui-sref="notebooks.list">View All Books</a> <span style = "color:white;">| </span>
+    <a ng-click="logout()">Logout</a> <span style = "color:white;">| </span>
+    <a ui-sref="notebooks.new">New Notebook</a>
+  </div>
+</div>
 <div ui-view></div>

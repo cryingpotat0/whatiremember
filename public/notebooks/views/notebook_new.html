@@ -1,6 +1,6 @@
 
-<div class="stage" id="stage" ng-init="createTextEditors()">
-  <div class="container">
+<div class="stage" id="stage"> 
+  <div class="container" ng-init="createTextEditors()">
     <div class = "row">
       <div class="col-md-6 col-md-offset-3 col-xs-9">
         <h1>
@@ -13,22 +13,8 @@
         <div class = "text-editor-input"></div>
       </div>
       <div class = "col-xs-3">
-        <button class = "btn btn-success " style="position:fixed; top: 20%; left:75%" ng-click="submitNotebook()">Submit</button>
+        <button class = "notebook-buttons submit-buttons btn" ng-click="submitNotebook()">Submit</button>
       </div>
     </div>
   </div>
 </div>
-<style>
-  .text-editor-input0 #editor {
-    margin-top: 90px;
-  }
-
-  .fixed-toolbar {
-    top: 100px;
-  }
-
-  .CodeFlask__pre {
-    color:white;
-  }
-
-</style>
