@@ -1,5 +1,5 @@
-angular.module('userApp').service('flash', ['$rootScope',
-  function($rootScope) {
+angular.module('userApp').service('flash', ['$rootScope', '$state',
+  function($rootScope, $state) {
     
     this.newFlashSet = function(messages, style) {
       $rootScope.$emit('newFlashSet', {
@@ -11,12 +11,10 @@ angular.module('userApp').service('flash', ['$rootScope',
     this.listenForFlash = function($scope) {
       $rootScope.$on('newFlashSet', function(event, args) {
         $scope.flashMessages = args.messages;
-        //console.log('starting');
         $scope.flashStyle = args.style;
       });
       $rootScope.$on("$stateChangeStart", function () {
         $scope.flashStyle = undefined;
-        //console.log('stopping');
         $scope.flashMessages = undefined;
       });
     }

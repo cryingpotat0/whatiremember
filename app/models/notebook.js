@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var max_lines = 20;
+var max_lines = 10;
 
 var NotebookSchema = new Schema({
   title: {

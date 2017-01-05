@@ -64,5 +64,16 @@ angular.module('userApp').service('Authentication', ['$localStorage', '$http', '
     }
   };
 
-}]);
+  this.checkSignedIn = function(shouldBeLoggedIn) {
+    var deferred = $q.defer();
+    if( ($localStorage.user_id && !(shouldBeLoggedIn)) || 
+      (!($localStorage.user_id) && shouldBeLoggedIn) ) {
+        deferred.reject('You are not permitted access to this page');
+      } else {
+        deferred.resolve('Permitted access');
+      }
+    return deferred.promise;
+  }
+
+  }]);
 

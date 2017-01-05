@@ -123,8 +123,21 @@ var TextEditor = function(containerName) {
 
       var newElement = document.createElement('div');
       newElement.id = id;
-      my_parent = range.startContainer.parentNode.parentNode.id;
-      if(my_parent === "editor" || my_parent === strippedName) {
+      var my_parent = range.startContainer.parentNode;
+      var depth = 15;
+      var is_in_editor = false;
+      for(var i=0; i<depth; i++) {
+        if(my_parent.id === 'editor') {
+          is_in_editor = true;
+          break;
+        }
+        //try {
+        my_parent = my_parent.parentNode;
+        //} catch(e) {
+          //break;
+        //}
+      }
+      if(is_in_editor) {
         range.deleteContents();
         range.insertNode(newElement);
         var code_block = jQuery('#'+id);
@@ -137,12 +150,15 @@ var TextEditor = function(containerName) {
         flask.run('#'+ id, {language: language});
         flask.update('/* Your Code Here */');
       } else {
-        throw "Not in right box"
+        throw "Not in right box";
       }
     } catch(e) {
       window.alert('Please place the cursor inside the textbox');
     }
   }
+
+
+
   TextEditor.prototype.toolbarElements = {
     undo: '<a href="javascript:" data-command="undo"><i class="fa fa-undo"></i></a>',
     redo: '<a href="javascript:" data-command="redo"><i class="fa fa-repeat"></i></a>',

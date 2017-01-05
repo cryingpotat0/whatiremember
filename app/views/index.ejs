@@ -10,9 +10,10 @@
       <link rel="stylesheet" href="css/toolkit-bold.css" />
       <link rel="stylesheet" href="css/custom.css" />
     </head>
-    <div class = "row">
-      <div class = "col-xs-6 col-xs-offset-3">
-        <div class= "text-center alert alert-{{flashStyle}} text-bold" ng-controller="flashController">
+    <div class = "row" ng-controller="flashController">
+      <div class = "col-xs-6 col-xs-offset-3" ng-if="flashMessages">
+        <div class= "text-center alert alert-{{flashStyle}} fade in text-bold" >
+          <a class="close" data-dismiss="alert" aria-label="close">&times;</a>      
           <div ng-repeat="message in flashMessages">{{message}}</div>
         </div>
       </div>
