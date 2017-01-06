@@ -131,11 +131,7 @@ var TextEditor = function(containerName) {
           is_in_editor = true;
           break;
         }
-        //try {
         my_parent = my_parent.parentNode;
-        //} catch(e) {
-          //break;
-        //}
       }
       if(is_in_editor) {
         range.deleteContents();
