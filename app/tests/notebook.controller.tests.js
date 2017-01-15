@@ -20,7 +20,6 @@ function loginUser() {
         }
     };
 };
-  /////
 var user, notebook;
 describe('Notebooks Controller Unit Tests:', function() {
   before(function(done) {

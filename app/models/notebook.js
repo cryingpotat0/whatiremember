@@ -32,6 +32,9 @@ var NotebookSchema = new Schema({
     trim: true,
     required: "Creator ID is required",
     index: true
+  },
+  access: {
+    type: String,
   }
 });
 
