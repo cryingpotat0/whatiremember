@@ -1,3 +1,4 @@
+/*
 var request = require('supertest');
 var server = request.agent('http://localhost:3000');
 var should = require('should'),
@@ -81,3 +82,4 @@ describe('Notebooks Controller Unit Tests:', function() {
     done();
   }); 
 });
+*/

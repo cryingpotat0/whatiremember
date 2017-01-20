@@ -62,8 +62,7 @@ angular.module('userApp').controller('NotebookController', ['$scope', '$http', '
             flash.newFlashSet(['Notebook successfully created'], 'success');
           },
           function(errors) {
-            var errorList = errors.data.error.errors.title.message;
-            flash.newFlashSet([errorList], 'success');
+            console.log(errors);
           });
     }
 

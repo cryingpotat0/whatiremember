@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var User = mongoose.model('User');
 var max_lines = 10;
 
 var NotebookSchema = new Schema({
@@ -7,21 +8,10 @@ var NotebookSchema = new Schema({
     type: String,
     required: 'Title is required'
   },
-  lines: {
-    type: Object,
-    validate: [
-      function(lines) {
-        count = 0;
-        for (var line in lines) {
-          if (lines.hasOwnProperty(line)){
-            count++;
-          }
-        }
-        return count <= max_lines;
-      },
-      'Maximum of ' + max_lines + ' lines'
-    ]
-  },
+  lines: [{ 
+      type: Schema.Types.ObjectId, 
+      ref: 'Lines' 
+  }],
   creator: { 
     type: Schema.ObjectId,
     ref: 'User',
@@ -32,6 +22,26 @@ var NotebookSchema = new Schema({
     trim: true,
     required: "Creator ID is required",
     index: true
+  },
+  access: {
+    type: String,
+    enum: ['private', 'public']
+  },
+  show: {
+    type: String,
+    enum: ['private', 'public']
+  },
+  createdAt: {
+    type: Number
+  },
+  updatedAt: {
+    type: Number
+  },
+  upvotes: {
+    type: Array
+  },
+  downvotes: {
+    type: Array
   }
 });
 
