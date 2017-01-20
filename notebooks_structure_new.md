@@ -10,9 +10,12 @@ Notebook = {
   updatedAt: required
   upvotes: array of users who upvoted 
   downvotes: array of users who downoted
+<<<<<<< HEAD
   netvotes: virtualattribute, ( count(upvotes) - count(downvotes) )/ totalCount
   nettime: virtualattribute, (currentTime - updatedAt) / currentTime
   score: virtualattribute, combination of netvotes and nettime
+=======
+>>>>>>> 88a9ba5867f6054f415977ca53064d49adccfbf9
 }
 
 Line = {
