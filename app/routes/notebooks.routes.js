@@ -5,7 +5,7 @@ module.exports = function(app) {
   app.get('/api/notebook', authenticateUser, notebooks.list);
 
   app.get('/api/notebook/:notebookId', notebooks.findOne, currentUserAccess, notebooks.listOne);
-  app.delete('/api/notebook/:notebookId', notebooks.findOne, currentUserAccess, notebooks.delete);
+  app.delete('/api/notebook/:notebookId', notebooks.findOne, adminCheck, currentUserAccess, notebooks.delete);
   app.patch('/api/notebook/:notebookId', notebooks.findOne, currentUserAccess, notebooks.update);
 }
 
